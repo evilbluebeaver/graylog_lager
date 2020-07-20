@@ -6,3 +6,4 @@
 /log/
 /test/
 /_build/
+rebar3.crashdump
