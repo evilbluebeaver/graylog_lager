@@ -8,7 +8,7 @@ format(Message, Config, _Colors) ->
     format(Message, Config).
 
 format(Message, Config) ->
-    Compression = proplists_get_value:lookup(compression, Config, disabled),
+    Compression = proplists:get_value(compression, Config, disabled),
     Severity = lager_msg:severity(Message),
     Msg = lager_msg:message(Message),
     Timestamp = lager_msg:timestamp(Message),
