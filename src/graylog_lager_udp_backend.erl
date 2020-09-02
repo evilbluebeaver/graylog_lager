@@ -41,7 +41,8 @@ init(Config) ->
 
     FormatConfig = case proplists:get_value(hostname, FormatConfig0) of
                      undefined ->
-                         [{hostname, element(2, inet:gethostname())} | FormatConfig0];
+                        {ok, Hostname} = inet:gethostname(),
+                         [{hostname, Hostname} | FormatConfig0];
                      _ ->
                          FormatConfig0
                    end,
