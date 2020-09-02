@@ -71,6 +71,7 @@ handle_call(_Request, State) ->
 handle_event({log, MessageInner},
              #state{level = L,
                     shaper = Shaper,
+                    sender = Sender,
                     name = Name,
                     formatter = Formatter,
                     format_config = FormatConfig} =
@@ -89,7 +90,7 @@ handle_event({log, MessageInner},
                   _ ->
                       ok
                 end,
-                write(MessageInner, Formatter, FormatConfig, State),
+                write(Sender, MessageInner, Formatter, FormatConfig),
                 {ok, State#state{shaper = NewShaper}};
             {false, _, #lager_shaper{dropped = D} = NewShaper} ->
                 {ok, State#state{shaper = NewShaper#lager_shaper{dropped = D + 1}}}
@@ -111,9 +112,9 @@ code_change(_OldVsn, State, _Extra) ->
 
 %internal
 
-write(MessageInner, Formatter, FormatConfig, State) ->
+write(Sender, MessageInner, Formatter, FormatConfig) ->
     Msg = Formatter:format(MessageInner, FormatConfig),
-    graylog_udp_sender:send(State, Msg).
+    graylog_udp_sender:send(Sender, Msg).
 
 validate_conf(level, L) ->
     case lists:member(L, ?LEVELS) of
