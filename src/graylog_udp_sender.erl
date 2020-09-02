@@ -5,7 +5,7 @@
 -record(state, {address, socket, port, chunk_size}).
 
 -define(CHUNK_GELF_ID, <<30, 15>>).
--define(CHUNK_SIZE, 1472).
+-define(CHUNK_SIZE, 1420).
 
 open(Host, Port) ->
     open(Host, Port, []).

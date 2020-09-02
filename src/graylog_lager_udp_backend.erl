@@ -15,6 +15,7 @@
 
 -record(state, {name, sender, level, formatter, format_config, shaper :: lager_shaper()}).
 
+-define(CHUNK_SIZE, 1420).
 -define(DEFAULT_GELF_FORMATTER, graylog_lager_gelf_formatter).
 
 init(Config) ->
@@ -25,7 +26,7 @@ init(Config) ->
     Host = proplists:get_value(host, Config),
     Port = proplists:get_value(port, Config),
     Name = proplists:get_value(name, Config, {Host, Port}),
-    ChunkSize = proplists:get_value(chunk_size, Config),
+    ChunkSize = proplists:get_value(chunk_size, Config, ?CHUNK_SIZE),
 
     Flush = proplists:get_value(flush_queue, Config),
     HighWaterMark = proplists:get_value(high_water_mark, Config),
